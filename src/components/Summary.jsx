@@ -30,18 +30,29 @@ export default function Summary({ userAnswers = [] }) { // Default to an empty a
                 </p>
             </div>
             <ol>
-                {userAnswers.map((answer, index) => (
-                    <li key={index}>
-                        <h3>{index + 1}</h3>
-                        <p className='question'>{QUESTIONS[index].text}</p>
-                        <p className='user-answer'>
-                            {answer === null ? 'Skipped' : answer}
-                        </p>
-                        <p className='correct-answer'>
-                            Correct answer: {QUESTIONS[index].answers[0]}
-                        </p>
-                    </li>
-                ))}
+                {userAnswers.map((answer, index) => {
+                    let cssClass = 'user-answer';
+                    if (answer === null) {
+                        cssClass += ' skipped';
+                    } else if (answer === QUESTIONS[index].answers[0]){
+                        cssClass += ' correct';
+                    } else {
+                        cssClass += ' wrong';
+                    }
+
+                    return ( 
+                        <li key={index}>
+                            <h3>{index + 1}</h3>
+                            <p className='question'>{QUESTIONS[index].text}</p>
+                            <p className={cssClass}>
+                                {answer ?? 'Skipped'}
+                            </p>
+                            <p className='correct-answer'>
+                                Correct answer: {QUESTIONS[index].answers[0]}
+                            </p>
+                        </li>
+                    );
+                })}
             </ol>
         </div>
     );
